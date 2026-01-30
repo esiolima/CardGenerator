@@ -9,15 +9,15 @@ const PORT = Number(process.env.PORT) || 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Caminho correto do frontend buildado
-const clientPath = path.join(__dirname, "..", "public");
+// 🔥 FRONTEND REAL (Vite build)
+const clientPath = path.join(__dirname, "public");
 
 app.use(express.json());
 
-// Servir arquivos estáticos
+// Servir arquivos estáticos do React build
 app.use(express.static(clientPath));
 
-// 🔥 SPA fallback — QUALQUER rota devolve index.html
+// SPA fallback — sempre devolver index.html
 app.get("*", (_req, res) => {
   res.sendFile(path.join(clientPath, "index.html"));
 });
@@ -27,7 +27,7 @@ app.get("/health", (_req, res) => {
   res.send("OK");
 });
 
-// Start
+// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
