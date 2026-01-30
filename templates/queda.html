@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<title>Queda de Preço</title>
+
+<style>
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Black.ttf') format('truetype');
+  font-weight: 900;
+}
+
+* { 
+  box-sizing: border-box;
+  font-family: Inter, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #eef6ff;
+  display: flex;
+  justify-content: center;
+}
+
+.upper { text-transform: uppercase; }
+
+.text-wrap {
+  max-width: 1200px;
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.15;
+}
+
+.card {
+  width: 1400px;
+  height: 2115px;
+  background: #ffffff;
+  border-radius: 140px;
+  border: 12px solid #F2C94C;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #1F3C6E;
+  font-family: Inter, sans-serif;
+  padding: 0 40px;
+  overflow: hidden;
+}
+
+/* 🔥 LOGO +80% */
+.logo {
+  margin-top: 50px;
+  flex-shrink: 0;
+}
+.logo img {
+  max-height: 624px;
+  max-width: 1560px;
+  object-fit: contain;
+}
+
+.queda-box {
+  margin-top: 40px;
+  background: #1F3C6E;
+  color: #ffffff;
+  padding: 48px 160px;
+  border-radius: 999px;
+  font-family: Inter, sans-serif;
+  font-weight: 900;
+  font-size: clamp(60px, 8vw, 96px);
+  flex-shrink: 0;
+}
+
+.ate {
+  margin-top: 60px;
+  font-family: Inter, sans-serif;
+  font-size: clamp(50px, 7vw, 72px);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.percentual {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 700px;
+  font-weight: 900;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.percentual .numero {
+  font-family: Inter, sans-serif;
+  font-weight: 900;
+  font-size: clamp(300px, 40vw, 520px);
+}
+.percentual .percent {
+  font-family: Inter, sans-serif;
+  font-weight: 900;
+  font-size: clamp(300px, 40vw, 520px);
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+
+.texto {
+  margin-top: 50px;
+  font-family: Inter, sans-serif;
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 700;
+  min-height: 80px;
+  flex-shrink: 0;
+}
+
+.legal {
+  margin-top: 60px;
+  font-family: Inter, sans-serif;
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 400;
+  min-height: 80px;
+  flex-shrink: 0;
+}
+
+/* RODAPÉ */
+.rodape {
+  margin-top: auto;
+  margin-bottom: 60px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.urn {
+  font-family: Inter, sans-serif;
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 700;
+}
+
+.segmento-label {
+  margin-top: 24px;
+  font-family: Inter, sans-serif;
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 400;
+}
+
+.segmento-valor {
+  font-family: Inter, sans-serif;
+  font-size: clamp(36px, 5vw, 54px);
+  font-weight: 700;
+  min-height: 60px;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+  <div class="logo">
+    <img src="{{LOGO}}" alt="Logo do fornecedor">
+  </div>
+
+  <div class="queda-box upper">QUEDA DE PREÇO</div>
+  <div class="ate upper">ATÉ</div>
+
+  <div class="percentual upper">
+    <div class="numero">{{VALOR}}</div>
+    <div class="percent">%</div>
+  </div>
+
+  <div class="texto text-wrap upper">{{TEXTO}}</div>
+
+  <div class="legal text-wrap upper">{{LEGAL}}</div>
+
+  <div class="rodape">
+    <div class="urn upper">URN: {{UF}}</div>
+    <div class="segmento-label upper">SEGMENTO DE CLIENTES:</div>
+    <div class="segmento-valor text-wrap upper">{{SEGMENTO}}</div>
+  </div>
+
+</div>
+</body>
+</html>
