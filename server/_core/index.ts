@@ -9,37 +9,21 @@ const PORT = Number(process.env.PORT) || 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ⚠️ EM PRODUÇÃO, o frontend está em dist/public
+// 🔥 CAMINHO CORRETO DO FRONT BUILDADO PELO VITE
 const clientPath = path.join(__dirname, "..", "public");
 
 // Middleware
 app.use(express.json());
 
-// Servir frontend buildado pelo Vite
+// Servir arquivos estáticos
 app.use(express.static(clientPath));
 
-// Rota raiz
-app.get("/", (_req, res) => {
+// SPA fallback (React)
+app.get("*", (_req, res) => {
   res.sendFile(path.join(clientPath, "index.html"));
 });
 
-// Rota tipo Manus
-app.post("/processar", (req, res) => {
-  const { input } = req.body;
-
-  const resultado = `
-=== RESULTADO GERADO ===
-
-Entrada recebida:
-${input}
-
-(Processamento simulado com sucesso)
-`;
-
-  res.json({ resultado });
-});
-
-// Healthcheck (Railway usa isso)
+// Healthcheck
 app.get("/health", (_req, res) => {
   res.send("OK");
 });
