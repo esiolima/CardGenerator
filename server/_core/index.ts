@@ -9,16 +9,15 @@ const PORT = Number(process.env.PORT) || 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// 🔥 CAMINHO CORRETO DO FRONT BUILDADO PELO VITE
+// Caminho correto do frontend buildado
 const clientPath = path.join(__dirname, "..", "public");
 
-// Middleware
 app.use(express.json());
 
 // Servir arquivos estáticos
 app.use(express.static(clientPath));
 
-// SPA fallback (React)
+// 🔥 SPA fallback — QUALQUER rota devolve index.html
 app.get("*", (_req, res) => {
   res.sendFile(path.join(clientPath, "index.html"));
 });
