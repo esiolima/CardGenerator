@@ -1,24 +1,37 @@
 import express from "express";
 
 const app = express();
-
-// Railway injeta PORT automaticamente
 const PORT = Number(process.env.PORT) || 3000;
 
-// Middleware básico
 app.use(express.json());
 
-// Rota raiz (IMPORTANTE)
+// rota principal
 app.get("/", (_req, res) => {
-  res.status(200).send("CardGenerator API está rodando 🚀");
+  res.send("Backend do CardGenerator rodando");
 });
 
-// Healthcheck (Railway gosta disso)
+// rota de processamento (tipo Manus)
+app.post("/processar", (req, res) => {
+  const { input } = req.body;
+
+  // aqui futuramente entra a lógica real
+  const resultado = `
+=== RESULTADO GERADO ===
+
+Entrada recebida:
+${input}
+
+(Processamento simulado com sucesso)
+`;
+
+  res.json({ resultado });
+});
+
+// healthcheck
 app.get("/health", (_req, res) => {
-  res.status(200).send("OK");
+  res.send("OK");
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
