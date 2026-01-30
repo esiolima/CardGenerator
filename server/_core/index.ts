@@ -1,20 +1,32 @@
 import express from "express";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
+// Resolver __dirname no ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Caminho do client
+const clientPath = path.join(__dirname, "..", "..", "client");
+
+// Middleware
 app.use(express.json());
 
-// rota principal
+// Servir arquivos estáticos (index.html)
+app.use(express.static(clientPath));
+
+// Rota raiz — IMPORTANTE
 app.get("/", (_req, res) => {
-  res.send("Backend do CardGenerator rodando");
+  res.sendFile(path.join(clientPath, "index.html"));
 });
 
-// rota de processamento (tipo Manus)
+// Rota tipo Manus
 app.post("/processar", (req, res) => {
   const { input } = req.body;
 
-  // aqui futuramente entra a lógica real
   const resultado = `
 === RESULTADO GERADO ===
 
@@ -27,11 +39,12 @@ ${input}
   res.json({ resultado });
 });
 
-// healthcheck
+// Healthcheck
 app.get("/health", (_req, res) => {
   res.send("OK");
 });
 
+// Start
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });
