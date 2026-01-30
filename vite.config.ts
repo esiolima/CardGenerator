@@ -1,17 +1,15 @@
 import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
 import fs from "node:fs";
 import path from "node:path";
 import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
-// =============================================================================
-// Manus Debug Collector - Vite Plugin
-// =============================================================================
+// ==============================
+// Manus Debug Collector (DEV)
+// ==============================
 
 const PROJECT_ROOT = import.meta.dirname;
 const LOG_DIR = path.join(PROJECT_ROOT, ".manus-logs");
-const MAX_LOG_SIZE_BYTES = 1 * 1024 * 1024; // 1MB
 
 type LogSource = "browserConsole" | "networkRequests" | "sessionReplay";
 
@@ -22,7 +20,7 @@ function ensureLogDir() {
 }
 
 function writeToLogFile(source: LogSource, entries: unknown[]) {
-  if (entries.length === 0) return;
+  if (!entries || (Array.isArray(entries) && entries.length === 0)) return;
   ensureLogDir();
   const logPath = path.join(LOG_DIR, `${source}.log`);
   fs.appendFileSync(logPath, `${JSON.stringify(entries)}\n`, "utf-8");
@@ -33,9 +31,7 @@ function vitePluginManusDebugCollector(): Plugin {
     name: "manus-debug-collector",
 
     transformIndexHtml(html) {
-      if (process.env.NODE_ENV === "production") {
-        return html;
-      }
+      if (process.env.NODE_ENV === "production") return html;
       return {
         html,
         tags: [
@@ -69,7 +65,7 @@ function vitePluginManusDebugCollector(): Plugin {
 
             res.writeHead(200, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ success: true }));
-          } catch (e) {
+          } catch {
             res.writeHead(400, { "Content-Type": "application/json" });
             res.end(JSON.stringify({ success: false }));
           }
@@ -84,7 +80,6 @@ export default defineConfig({
 
   plugins: [
     react(),
-    tailwindcss(),
     vitePluginManusRuntime(),
     vitePluginManusDebugCollector(),
   ],
