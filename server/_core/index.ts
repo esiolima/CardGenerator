@@ -3,22 +3,22 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 8080;
 
 // Resolver __dirname no ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Caminho do client
-const clientPath = path.join(__dirname, "..", "..", "client");
+// ⚠️ EM PRODUÇÃO, o frontend está em dist/public
+const clientPath = path.join(__dirname, "..", "public");
 
 // Middleware
 app.use(express.json());
 
-// Servir arquivos estáticos (index.html)
+// Servir frontend buildado pelo Vite
 app.use(express.static(clientPath));
 
-// Rota raiz — IMPORTANTE
+// Rota raiz
 app.get("/", (_req, res) => {
   res.sendFile(path.join(clientPath, "index.html"));
 });
@@ -39,7 +39,7 @@ ${input}
   res.json({ resultado });
 });
 
-// Healthcheck
+// Healthcheck (Railway usa isso)
 app.get("/health", (_req, res) => {
   res.send("OK");
 });
