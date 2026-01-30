@@ -1,14 +1,78 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+    <title>Card Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gerador de Cards</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0f172a;
+        color: #e5e7eb;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .box {
+        background: #020617;
+        padding: 24px;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 500px;
+      }
+      textarea {
+        width: 100%;
+        height: 120px;
+        margin-top: 8px;
+      }
+      button {
+        margin-top: 12px;
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+      }
+      pre {
+        background: #020617;
+        padding: 10px;
+        margin-top: 12px;
+        white-space: pre-wrap;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div class="box">
+      <h2>Gerador de Cards (modo simples)</h2>
 
-    <!-- PONTO CRÍTICO -->
-    <script type="module" src="./src/main.tsx"></script>
+      <label>Conteúdo de entrada:</label>
+      <textarea id="input"></textarea>
+
+      <button onclick="processar()">Processar</button>
+
+      <pre id="output"></pre>
+    </div>
+
+    <script>
+      async function processar() {
+        const input = document.getElementById("input").value;
+        const output = document.getElementById("output");
+
+        output.textContent = "Processando...";
+
+        try {
+          const res = await fetch("/processar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ input }),
+          });
+
+          const data = await res.json();
+          output.textContent = data.resultado;
+        } catch (e) {
+          output.textContent = "Erro ao processar.";
+        }
+      }
+    </script>
   </body>
 </html>
